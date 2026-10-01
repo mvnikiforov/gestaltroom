@@ -7,7 +7,8 @@ interface PsychologistCardProps {
 }
 
 export default function PsychologistCard({ psychologist }: PsychologistCardProps) {
-  const { name, subtitle, bio, accent, fade, delay, phone, phoneHref } = psychologist;
+  const { name, subtitle, bio, accent, fade, delay, phone, phoneHref, channelLabel, channelUrl } =
+    psychologist;
   const [isFlipped, setIsFlipped] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [showScrollHint, setShowScrollHint] = useState(false);
@@ -132,7 +133,7 @@ export default function PsychologistCard({ psychologist }: PsychologistCardProps
 
             <div className="shrink-0 pt-4">
               {phone && phoneHref && (
-                <div className="pb-4">
+                <div className="pb-3">
                   <a
                     href={phoneHref}
                     tabIndex={isFlipped ? 0 : -1}
@@ -154,6 +155,37 @@ export default function PsychologistCard({ psychologist }: PsychologistCardProps
                       />
                     </svg>
                     Запись: {phone}
+                  </a>
+                </div>
+              )}
+
+              {/* Ссылка на канал в мессенджере — вторая кнопкой, телефон
+                  первым. Рендерится, только если заданы оба поля. */}
+              {channelLabel && channelUrl && (
+                <div className="pb-4">
+                  <a
+                    href={channelUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    tabIndex={isFlipped ? 0 : -1}
+                    aria-hidden={!isFlipped}
+                    className="inline-flex items-center gap-2 rounded-full border border-current opacity-80 hover:opacity-100 active:opacity-100 transition-opacity px-4 py-2.5 text-sm font-medium no-underline motion-reduce:transition-none"
+                  >
+                    <svg
+                      className="w-4 h-4"
+                      fill="none"
+                      stroke="currentColor"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth={1.5}
+                        d="M6 12L3.269 3.125A59.769 59.769 0 0121.485 12 59.77 59.77 0 013.27 20.875L5.999 12zm0 0h7.5"
+                      />
+                    </svg>
+                    {channelLabel}
                   </a>
                 </div>
               )}

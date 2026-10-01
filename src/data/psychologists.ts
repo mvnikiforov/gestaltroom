@@ -30,6 +30,10 @@ export interface Psychologist {
   /** Телефон для записи. Убирается вместе с `phoneHref`, если не нужен. */
   phone?: string;
   phoneHref?: string;
+  /** Ссылка на канал в мессенджере: подпись и адрес. Убирается вместе,
+   *  если не заданы оба. */
+  channelLabel?: string;
+  channelUrl?: string;
   photo: PsychologistPhoto;
   /** Tailwind-классы для рубашки карточки. */
   accent: string;
@@ -95,6 +99,8 @@ export const psychologists: Psychologist[] = [
     ],
     phone: '8 962 321 21 73',
     phoneHref: 'tel:+79623212173',
+    channelLabel: 'Канал в МАХ',
+    channelUrl: 'https://max.ru/channel_pro_balance',
     photo: {
       src: '/images/Valeriya.webp',
       alt: 'Портрет Валерии, гештальт-практика',
