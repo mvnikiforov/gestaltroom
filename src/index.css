@@ -25,14 +25,14 @@
   --color-sage-900: #1e2b1e;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 html {
   scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
 }
 
 body {
@@ -42,7 +42,13 @@ body {
   overflow-x: hidden;
 }
 
-/* Card flip animation */
+:focus-visible {
+  outline: 2px solid var(--color-sage-500);
+  outline-offset: 3px;
+}
+
+/* Карточка с переворотом */
+
 .card-container {
   perspective: 1200px;
 }
@@ -55,13 +61,9 @@ body {
   transform-style: preserve-3d;
 }
 
-.card-container.flipped .card-inner {
-  transform: rotateY(180deg);
-}
-
-.card-front,
-.card-back {
+.card-face {
   position: absolute;
+  inset: 0;
   width: 100%;
   height: 100%;
   backface-visibility: hidden;
@@ -74,7 +76,63 @@ body {
   transform: rotateY(180deg);
 }
 
-/* Floating animation */
+@media (prefers-reduced-motion: reduce) {
+  .card-inner {
+    transition-duration: 0.01ms;
+  }
+}
+
+/* Появление шапки и подвала */
+
+@keyframes reveal-down {
+  from {
+    opacity: 0;
+    transform: translateY(-2rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes reveal-up {
+  from {
+    opacity: 0;
+    transform: translateY(2rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+.reveal-down,
+.reveal-up {
+  animation-duration: 1s;
+  animation-timing-function: ease-out;
+  animation-fill-mode: both;
+}
+
+.reveal-down {
+  animation-name: reveal-down;
+}
+
+.reveal-up {
+  animation-name: reveal-up;
+  animation-delay: 700ms;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-down,
+  .reveal-up {
+    animation: none;
+    opacity: 1;
+    transform: none;
+  }
+}
+
+/* Плавающие декоративные элементы фона */
+
 @keyframes float {
   0%, 100% { transform: translateY(0px); }
   50% { transform: translateY(-10px); }
@@ -84,44 +142,14 @@ body {
   animation: float 6s ease-in-out infinite;
 }
 
-/* Pulse ring */
-@keyframes pulse-ring {
-  0% { transform: scale(0.95); opacity: 0.7; }
-  50% { transform: scale(1.05); opacity: 0.3; }
-  100% { transform: scale(0.95); opacity: 0.7; }
-}
-
-.pulse-ring {
-  animation: pulse-ring 3s ease-in-out infinite;
-}
-
-/* Fade in animation */
-@keyframes fadeInUp {
-  from {
-    opacity: 0;
-    transform: translateY(30px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+@media (prefers-reduced-motion: reduce) {
+  .float-animation {
+    animation: none;
   }
 }
 
-.fade-in-up {
-  animation: fadeInUp 0.8s ease-out forwards;
-}
+/* Скроллбар */
 
-.fade-in-up-delay-1 {
-  animation: fadeInUp 0.8s ease-out 0.2s forwards;
-  opacity: 0;
-}
-
-.fade-in-up-delay-2 {
-  animation: fadeInUp 0.8s ease-out 0.4s forwards;
-  opacity: 0;
-}
-
-/* Scrollbar styling */
 ::-webkit-scrollbar {
   width: 6px;
 }
@@ -139,23 +167,8 @@ body {
   background: var(--color-warm-400);
 }
 
-/* Text reveal animation */
-@keyframes textReveal {
-  from {
-    opacity: 0;
-    transform: translateY(10px);
-  }
-  to {
-    opacity: 1;
-    transform: translateY(0);
-  }
-}
+/* Затемнение фотографии к подписи */
 
-.text-reveal {
-  animation: textReveal 0.5s ease-out forwards;
-}
-
-/* Gradient overlay */
 .gradient-overlay {
   background: linear-gradient(
     180deg,
