@@ -40,6 +40,21 @@ export interface Psychologist {
   delay: number;
 }
 
+export interface QuickStartItem {
+  id: string;
+  title: string;
+  /** Формат встречи: «офлайн по предварительной записи», «онлайн». */
+  format: string;
+  /** Когда: «последнее воскресенье месяца», «каждую субботу». */
+  schedule: string;
+  /** Время: «13:00», «утром в 9:00». */
+  time: string;
+  /** Стоимость: «бесплатно», «1000 рублей». */
+  price: string;
+  /** Необязательное пояснение под пунктом. */
+  note?: string;
+}
+
 export const psychologists: Psychologist[] = [
   {
     id: 'mariya',
@@ -95,4 +110,29 @@ export const site = {
   title: 'Пространство для ваших перемен',
   footerTop: 'Гештальт-подход • Работа с телом и сознанием • Осознанность',
   footerBottom: 'Чебоксары • Онлайн и офлайн',
+};
+
+/** Блок «Быстрый старт». Подписи «Формат / Когда / Время / Стоимость»
+ *  заданы в компоненте, здесь только значения. */
+export const quickStart: { title: string; items: QuickStartItem[] } = {
+  title: 'Быстрый старт',
+  items: [
+    {
+      id: 'coffee',
+      title: 'Кофе с психологом',
+      format: 'офлайн по предварительной записи',
+      schedule: 'последнее воскресенье месяца',
+      time: '13:00',
+      price: 'бесплатно',
+      note: 'напитки заказываете для себя',
+    },
+    {
+      id: 'calm-practices',
+      title: 'Практики для успокоения ума',
+      format: 'онлайн',
+      schedule: 'каждую субботу',
+      time: 'утром в 9:00',
+      price: '1000 рублей',
+    },
+  ],
 };

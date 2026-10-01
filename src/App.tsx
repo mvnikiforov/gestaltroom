@@ -1,5 +1,6 @@
 import ParticleBackground from './components/ParticleBackground';
 import PsychologistCard from './components/PsychologistCard';
+import QuickStartSection from './components/QuickStartSection';
 import { psychologists, site } from './data/psychologists';
 
 export default function App() {
@@ -40,10 +41,15 @@ export default function App() {
           </div>
         </header>
 
-        <div className="flex flex-col lg:flex-row items-center lg:items-start justify-center gap-8 sm:gap-10 md:gap-14 w-full max-w-6xl">
+        {/* Ряд карточек и блок «Быстрый старт» — один контейнер. На lg он
+            grid с колонками по ширине карточки, поэтому секция на `col-span-2`
+            идёт ровно от левого края фото Марии до правого края фото Валерии. */}
+        <div className="flex flex-col lg:grid lg:grid-cols-[repeat(2,minmax(0,400px))] lg:justify-center items-center lg:items-start gap-8 sm:gap-10 md:gap-14 lg:gap-x-14 lg:gap-y-12 w-full max-w-6xl">
           {psychologists.map((psychologist) => (
             <PsychologistCard key={psychologist.id} psychologist={psychologist} />
           ))}
+
+          <QuickStartSection />
         </div>
 
         <footer className="reveal-up mt-12 sm:mt-16 md:mt-20 text-center">
