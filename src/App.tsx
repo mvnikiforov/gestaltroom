@@ -43,14 +43,13 @@ export default function App() {
 
         {/* Ряд карточек и блок «Быстрый старт» — один контейнер. На lg он
             grid с колонками по ширине карточки, поэтому секция на `col-span-2`
-            идёт ровно от левого края фото Марии до правого края фото Валерии.
-            Секция стоит первой и занимает всю ширину, карточки — вторую строку. */}
+            идёт ровно от левого края фото Марии до правого края фото Валерии. */}
         <div className="flex flex-col lg:grid lg:grid-cols-[repeat(2,minmax(0,400px))] lg:justify-center items-center lg:items-start gap-8 sm:gap-10 md:gap-14 lg:gap-x-14 lg:gap-y-12 w-full max-w-6xl">
-          <QuickStartSection />
-
           {psychologists.map((psychologist) => (
             <PsychologistCard key={psychologist.id} psychologist={psychologist} />
           ))}
+
+          <QuickStartSection />
         </div>
 
         <footer className="reveal-up mt-12 sm:mt-16 md:mt-20 text-center">
