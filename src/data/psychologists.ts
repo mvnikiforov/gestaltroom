@@ -16,6 +16,9 @@
 export interface PsychologistPhoto {
   src: string;
   alt: string;
+  /** Размеры файла — чтобы браузер верно зарезервировал место до загрузки. */
+  width: number;
+  height: number;
 }
 
 export interface Psychologist {
@@ -39,8 +42,8 @@ export interface Psychologist {
 
 export const psychologists: Psychologist[] = [
   {
-    id: 'anna',
-    name: 'Анна',
+    id: 'mariya',
+    name: 'Мария',
     subtitle: 'Гештальт-терапевт • Магистр психологии',
     bio: [
       'Я практикующий гештальт-терапевт и магистр психологии. Мне 41 год.',
@@ -48,8 +51,10 @@ export const psychologists: Psychologist[] = [
       'В терапии можно не знать, как правильно и всё равно постепенно находить своё.',
     ],
     photo: {
-      src: '/images/anna.webp',
-      alt: 'Портрет Анны, гештальт-терапевта',
+      src: '/images/Mariya.webp',
+      alt: 'Портрет Марии, гештальт-терапевта',
+      width: 836,
+      height: 1254,
     },
     accent: 'bg-warm-800 text-warm-100',
     fade: 'from-warm-800',
@@ -72,8 +77,10 @@ export const psychologists: Psychologist[] = [
     phone: '8 962 321 21 73',
     phoneHref: 'tel:+79623212173',
     photo: {
-      src: '/images/valeriya.webp',
+      src: '/images/Valeriya.webp',
       alt: 'Портрет Валерии, гештальт-практика',
+      width: 708,
+      height: 1061,
     },
     accent: 'bg-sage-800 text-sage-100',
     fade: 'from-sage-800',
@@ -84,7 +91,6 @@ export const psychologists: Psychologist[] = [
 export const site = {
   eyebrow: 'Гештальт-терапия',
   title: 'Пространство для ваших перемен',
-  tagline: 'Две практики. Два пути. Одна цель — помочь вам обрести себя.',
   footerTop: 'Гештальт-подход • Работа с телом и сознанием • Осознанность',
   footerBottom: 'Москва • Онлайн и офлайн',
 };

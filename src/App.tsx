@@ -21,10 +21,6 @@ export default function App() {
             {site.title}
           </h1>
 
-          <p className="text-warm-600 text-sm sm:text-base md:text-lg font-light max-w-md mx-auto leading-relaxed">
-            {site.tagline}
-          </p>
-
           <div className="mt-6 sm:mt-8 flex items-center justify-center gap-2 text-warm-400">
             <svg
               className="w-4 h-4 animate-bounce motion-reduce:animate-none"

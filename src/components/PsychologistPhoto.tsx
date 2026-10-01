@@ -16,7 +16,7 @@ function initialsOf(name: string): string {
 
 export default function PsychologistPhoto({ psychologist }: PsychologistPhotoProps) {
   const [isBroken, setIsBroken] = useState(false);
-  const { src, alt } = psychologist.photo;
+  const { src, alt, width, height } = psychologist.photo;
 
   if (isBroken) {
     return (
@@ -37,8 +37,8 @@ export default function PsychologistPhoto({ psychologist }: PsychologistPhotoPro
       src={src}
       alt={alt}
       decoding="async"
-      width={800}
-      height={1000}
+      width={width}
+      height={height}
       onError={() => setIsBroken(true)}
       className="w-full h-full object-cover"
     />
