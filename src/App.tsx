@@ -22,6 +22,37 @@ export default function App() {
             {site.title}
           </h1>
 
+          {/* Адрес студии — ссылка на Яндекс Карты. Кегль ровно вдвое
+              меньше заголовка на каждом брейкпоинте. */}
+          <a
+            href={site.mapsUrl}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="mt-2 sm:mt-3 inline-flex items-center gap-2 sm:gap-2.5 text-[15px] sm:text-[18px] md:text-[24px] lg:text-[30px] font-light text-warm-700 hover:text-warm-800 hover:underline underline-offset-4 decoration-warm-400 no-underline transition-colors motion-reduce:transition-none"
+          >
+            <svg
+              className="w-4 h-4 sm:w-5 sm:h-5 shrink-0"
+              fill="none"
+              stroke="currentColor"
+              viewBox="0 0 24 24"
+              aria-hidden="true"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.5}
+                d="M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z"
+              />
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={1.5}
+                d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1 1 15 0Z"
+              />
+            </svg>
+            {site.address}
+          </a>
+
           <div className="mt-6 sm:mt-8 flex items-center justify-center gap-2 text-warm-400">
             <svg
               className="w-4 h-4 animate-bounce motion-reduce:animate-none"

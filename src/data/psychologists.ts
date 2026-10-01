@@ -107,9 +107,16 @@ export const psychologists: Psychologist[] = [
   },
 ];
 
+const address = 'Чебоксары, проспект Ленина, дом 19';
+
 export const site = {
   eyebrow: 'Гештальт-терапия',
   title: 'Пространство для ваших перемен',
+  /** Адрес студии — ссылка в шапке на Яндекс Карты. */
+  address,
+  /** Ссылка собирается из `address`, поэтому при смене адреса правится
+   *  только он. `z=17` — приближение к дому. */
+  mapsUrl: `https://yandex.ru/maps/?text=${encodeURIComponent(address)}&z=17`,
   footerTop: 'Гештальт-подход • Работа с телом и сознанием • Осознанность',
   footerBottom: 'Чебоксары • Онлайн и офлайн',
 };
