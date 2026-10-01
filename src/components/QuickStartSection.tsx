@@ -1,10 +1,14 @@
 import { quickStart } from '../data/psychologists';
 
-const ROWS: { label: string; field: 'format' | 'schedule' | 'time' | 'price' }[] = [
+const ROWS: {
+  label: string;
+  field: 'format' | 'schedule' | 'time' | 'price' | 'hosts';
+}[] = [
   { label: 'Формат', field: 'format' },
   { label: 'Когда', field: 'schedule' },
   { label: 'Время', field: 'time' },
   { label: 'Стоимость', field: 'price' },
+  { label: 'Ведущие', field: 'hosts' },
 ];
 
 export default function QuickStartSection() {

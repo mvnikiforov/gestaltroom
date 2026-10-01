@@ -51,6 +51,8 @@ export interface QuickStartItem {
   time: string;
   /** Стоимость: «бесплатно», «1000 рублей». */
   price: string;
+  /** Ведущие: «Мария, Валерия», «Валерия». */
+  hosts: string;
   /** Необязательное пояснение под пунктом. */
   note?: string;
 }
@@ -124,6 +126,7 @@ export const quickStart: { title: string; items: QuickStartItem[] } = {
       schedule: 'последнее воскресенье месяца',
       time: '13:00',
       price: 'бесплатно',
+      hosts: 'Мария, Валерия',
       note: 'напитки заказываете для себя',
     },
     {
@@ -133,6 +136,7 @@ export const quickStart: { title: string; items: QuickStartItem[] } = {
       schedule: 'каждую субботу',
       time: 'утром в 9:00',
       price: '1000 рублей',
+      hosts: 'Валерия',
     },
   ],
 };
