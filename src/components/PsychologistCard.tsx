@@ -131,71 +131,76 @@ export default function PsychologistCard({ psychologist }: PsychologistCardProps
               />
             </div>
 
-            <div className="shrink-0 pt-4">
+            {/* Контакты и возврат — одна flex-колонка с общим gap: интервалы
+                между элементами одинаковые. items-start обязателен, иначе
+                ссылки-«таблетки» растянутся на всю ширину карточки.
+                border-transparent у телефона — не опечатка: рамка в 1px нужна
+                всем трём элементам, иначе иконки встают на 1px левее. */}
+            <div className="shrink-0 flex flex-col items-start gap-3 pt-3">
               {phone && phoneHref && (
-                <div className="pb-3">
-                  <a
-                    href={phoneHref}
-                    tabIndex={isFlipped ? 0 : -1}
-                    aria-hidden={!isFlipped}
-                    className="inline-flex items-center gap-2 rounded-full bg-white/15 hover:bg-white/25 active:bg-white/30 transition-colors px-4 py-2.5 text-sm font-medium no-underline motion-reduce:transition-none"
+                <a
+                  href={phoneHref}
+                  tabIndex={isFlipped ? 0 : -1}
+                  aria-hidden={!isFlipped}
+                  className="inline-flex items-center gap-2 rounded-full border border-transparent bg-white/15 hover:bg-white/25 active:bg-white/30 transition-colors px-4 py-2.5 text-sm font-medium no-underline motion-reduce:transition-none"
+                >
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
                   >
-                    <svg
-                      className="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      aria-hidden="true"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={1.5}
-                        d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"
-                      />
-                    </svg>
-                    Запись: {phone}
-                  </a>
-                </div>
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1.5}
+                      d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z"
+                    />
+                  </svg>
+                  Запись: {phone}
+                </a>
               )}
 
               {/* Ссылка на канал в мессенджере — вторая кнопкой, телефон
                   первым. Рендерится, только если заданы оба поля. */}
               {channelLabel && channelUrl && (
-                <div className="pb-4">
-                  <a
-                    href={channelUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    tabIndex={isFlipped ? 0 : -1}
-                    aria-hidden={!isFlipped}
-                    className="inline-flex items-center gap-2 rounded-full border border-current opacity-80 hover:opacity-100 active:opacity-100 transition-opacity px-4 py-2.5 text-sm font-medium no-underline motion-reduce:transition-none"
+                <a
+                  href={channelUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  tabIndex={isFlipped ? 0 : -1}
+                  aria-hidden={!isFlipped}
+                  className="inline-flex items-center gap-2 rounded-full border border-current opacity-80 hover:opacity-100 active:opacity-100 transition-opacity px-4 py-2.5 text-sm font-medium no-underline motion-reduce:transition-none"
+                >
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
                   >
-                    <svg
-                      className="w-4 h-4"
-                      fill="none"
-                      stroke="currentColor"
-                      viewBox="0 0 24 24"
-                      aria-hidden="true"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth={1.5}
-                        d="M6 12L3.269 3.125A59.769 59.769 0 0121.485 12 59.77 59.77 0 013.27 20.875L5.999 12zm0 0h7.5"
-                      />
-                    </svg>
-                    {channelLabel}
-                  </a>
-                </div>
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1.5}
+                      d="M6 12L3.269 3.125A59.769 59.769 0 0121.485 12 59.77 59.77 0 013.27 20.875L5.999 12zm0 0h7.5"
+                    />
+                  </svg>
+                  {channelLabel}
+                </a>
               )}
 
+              {/* Возврат — такая же «таблетка», но с одной стрелкой и без
+                  подписи, поэтому py-3 держит ту же высоту 40px, что и
+                  контактные ссылки с текстом. Имя — в aria-label. */}
               <button
                 type="button"
                 onClick={() => setIsFlipped(false)}
                 tabIndex={isFlipped ? 0 : -1}
                 aria-hidden={!isFlipped}
-                className="inline-flex items-center gap-2 rounded-full opacity-70 hover:opacity-100 transition-opacity motion-reduce:transition-none"
+                aria-label="Вернуться к портрету"
+                className="inline-flex items-center rounded-full border border-current px-4 py-3 opacity-70 hover:opacity-100 active:opacity-100 transition-opacity motion-reduce:transition-none"
               >
                 <svg
                   className="w-4 h-4"
@@ -211,7 +216,6 @@ export default function PsychologistCard({ psychologist }: PsychologistCardProps
                     d="M10 19l-7-7m0 0l7-7m-7 7h18"
                   />
                 </svg>
-                <span className="text-xs">вернуться к портрету</span>
               </button>
             </div>
           </div>
