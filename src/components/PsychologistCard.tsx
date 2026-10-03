@@ -132,11 +132,12 @@ export default function PsychologistCard({ psychologist }: PsychologistCardProps
             </div>
 
             {/* Контакты и возврат — одна flex-колонка с общим gap: интервалы
-                между элементами одинаковые. items-start обязателен, иначе
-                ссылки-«таблетки» растянутся на всю ширину карточки.
-                border-transparent у телефона — не опечатка: рамка в 1px нужна
-                всем трём элементам, иначе иконки встают на 1px левее. */}
-            <div className="shrink-0 flex flex-col items-start gap-3 pt-3">
+                между элементами одинаковые, а items-end прижимает «таблетки»
+                к правому краю карточки (дефолтный stretch растянул бы их на всю
+                ширину). border-transparent у телефона — не опечатка: рамка в 1px
+                нужна всем трём элементам, иначе высота «таблетки» телефона
+                будет на 2px меньше. */}
+            <div className="shrink-0 flex flex-col items-end gap-3 pt-3">
               {phone && phoneHref && (
                 <a
                   href={phoneHref}
