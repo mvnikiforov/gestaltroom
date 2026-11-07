@@ -21,6 +21,13 @@ export interface PsychologistPhoto {
   height: number;
 }
 
+export interface PsychologistLink {
+  /** Подпись на «таблетке», например «Канал в Telegram». */
+  label: string;
+  /** Адрес канала, открывается в новой вкладке. */
+  url: string;
+}
+
 export interface Psychologist {
   id: string;
   name: string;
@@ -30,10 +37,8 @@ export interface Psychologist {
   /** Телефон для записи. Убирается вместе с `phoneHref`, если не нужен. */
   phone?: string;
   phoneHref?: string;
-  /** Ссылка на канал в мессенджере: подпись и адрес. Убирается вместе,
-   *  если не заданы оба. */
-  channelLabel?: string;
-  channelUrl?: string;
+  /** Дополнительные ссылки (каналы в мессенджерах). Порядок — как на карточке. */
+  links?: PsychologistLink[];
   photo: PsychologistPhoto;
   /** Tailwind-классы для рубашки карточки. */
   accent: string;
@@ -78,8 +83,10 @@ export const psychologists: Psychologist[] = [
     ],
     phone: '8 962 321 21 73',
     phoneHref: 'tel:+79623212173',
-    channelLabel: 'Канал в МАХ',
-    channelUrl: 'https://max.ru/channel_pro_balance',
+    links: [
+      { label: 'Канал в МАХ', url: 'https://max.ru/channel_pro_balance' },
+      { label: 'Канал в Telegram', url: 'https://t.me/pro_balance21' },
+    ],
     photo: {
       src: '/images/Valeriya.webp',
       alt: 'Портрет Валерии, гештальт-практика',

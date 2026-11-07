@@ -7,7 +7,7 @@ interface PsychologistCardProps {
 }
 
 export default function PsychologistCard({ psychologist }: PsychologistCardProps) {
-  const { name, subtitle, bio, accent, fade, delay, phone, phoneHref, channelLabel, channelUrl } =
+  const { name, subtitle, bio, accent, fade, delay, phone, phoneHref, links } =
     psychologist;
   const [isFlipped, setIsFlipped] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
@@ -131,12 +131,10 @@ export default function PsychologistCard({ psychologist }: PsychologistCardProps
               />
             </div>
 
-            {/* Контакты и возврат — одна flex-колонка с общим gap: интервалы
-                между элементами одинаковые, а items-end прижимает «таблетки»
-                к правому краю карточки (дефолтный stretch растянул бы их на всю
-                ширину). border-transparent у телефона — не опечатка: рамка в 1px
-                нужна всем трём элементам, иначе высота «таблетки» телефона
-                будет на 2px меньше. */}
+            {/* Контакты и возврат — одна flex-колонка с общим gap; items-end
+                прижимает «таблетки» к правому краю (дефолтный stretch растянул
+                бы их на всю ширину). Рамка 1px есть у всех элементов, у
+                телефона она transparent, иначе его высота будет на 2px меньше. */}
             <div className="shrink-0 flex flex-col items-end gap-3 pt-3">
               {phone && phoneHref && (
                 <a
@@ -163,11 +161,10 @@ export default function PsychologistCard({ psychologist }: PsychologistCardProps
                 </a>
               )}
 
-              {/* Ссылка на канал в мессенджере — вторая кнопкой, телефон
-                  первым. Рендерится, только если заданы оба поля. */}
-              {channelLabel && channelUrl && (
+              {links?.map((link) => (
                 <a
-                  href={channelUrl}
+                  key={link.url}
+                  href={link.url}
                   target="_blank"
                   rel="noopener noreferrer"
                   tabIndex={isFlipped ? 0 : -1}
@@ -188,9 +185,9 @@ export default function PsychologistCard({ psychologist }: PsychologistCardProps
                       d="M6 12L3.269 3.125A59.769 59.769 0 0121.485 12 59.77 59.77 0 013.27 20.875L5.999 12zm0 0h7.5"
                     />
                   </svg>
-                  {channelLabel}
+                  {link.label}
                 </a>
-              )}
+              ))}
 
               {/* Возврат — такая же «таблетка», но с одной стрелкой и без
                   подписи, поэтому py-3 держит ту же высоту 40px, что и
