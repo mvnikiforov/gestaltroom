@@ -1,16 +1,25 @@
-name: Deploy to reg.ru
+name: Build & Deploy to reg.ru
 
 on:
-  # Triggers the workflow on push or pull request events but only for the "main" branch
+  # Сборка и деплой только для main; PR — лишь проверка, без выкладки
   push:
     branches: [ "main" ]
   pull_request:
     branches: [ "main" ]
-    
+
   workflow_dispatch:
 
+# Новый запуск отменяет предыдущий незавершённый для той же ветки
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
 jobs:
-  build-and-deploy:
+  build:
+    name: Build
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -20,12 +29,39 @@ jobs:
         uses: actions/setup-node@v5
         with:
           node-version: '24'
+          cache: npm
 
       - name: Install dependencies
         run: npm ci
 
+      - name: Lint
+        run: npm run lint
+
       - name: Build
         run: npm run build
+
+      - name: Upload build artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
+          retention-days: 7
+
+  deploy:
+    name: Deploy to reg.ru
+    needs: build
+    # Только пуш в main или ручной запуск из main; PR никогда не деплоит
+    if: github.event_name != 'pull_request' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    environment:
+      name: production
+      url: https://gestalt-room.ru
+    steps:
+      - name: Download build artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist
 
       - name: Deploy to FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.4.0
