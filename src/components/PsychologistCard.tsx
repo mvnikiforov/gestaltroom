@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import type { Psychologist } from '../data/psychologists';
-import { messengerGoal, reachGoal } from '../lib/analytics';
+import { messengerGoal, reachCardGoal } from '../lib/analytics';
 import PsychologistPhoto from './PsychologistPhoto';
 
 interface PsychologistCardProps {
@@ -65,7 +65,7 @@ export default function PsychologistCard({ psychologist }: PsychologistCardProps
           type="button"
           onClick={() => {
             setIsFlipped(true);
-            reachGoal('card_open', { psychologist: id });
+            reachCardGoal('card_open', id, { psychologist: id });
           }}
           aria-expanded={isFlipped}
           aria-controls={backId}
@@ -140,7 +140,7 @@ export default function PsychologistCard({ psychologist }: PsychologistCardProps
               {phone && phoneHref && (
                 <a
                   href={phoneHref}
-                  onClick={() => reachGoal('phone_click', { psychologist: id })}
+                  onClick={() => reachCardGoal('phone_click', id, { psychologist: id })}
                   tabIndex={isFlipped ? 0 : -1}
                   aria-hidden={!isFlipped}
                   className="inline-flex items-center gap-2 rounded-full border border-transparent bg-white/15 hover:bg-white/25 active:bg-white/30 transition-colors px-4 py-2.5 text-sm font-medium no-underline motion-reduce:transition-none"
@@ -176,7 +176,7 @@ export default function PsychologistCard({ psychologist }: PsychologistCardProps
                       rel="noopener noreferrer"
                       aria-label={link.label}
                       onClick={() =>
-                        reachGoal(messengerGoal(messenger), {
+                        reachCardGoal(messengerGoal(messenger), id, {
                           psychologist: id,
                           messenger,
                         })

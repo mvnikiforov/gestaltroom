@@ -191,8 +191,9 @@ npm run lint        # eslint
   variables → Actions → Variables), workflow передаёт её в `npm run build`.
 
 Если переменная пустая, аналитика молча отключается — сборка и сайт работают
-как обычно. В Метрике нужно создать цели типа «JavaScript-событие» с
-идентификаторами:
+как обычно. В Метрике нужно создать цели типа «JavaScript-событие».
+
+Общие цели (сумма по карточкам):
 
 - `card_open` — открыли карточку, параметр `psychologist`;
 - `phone_click` — клик по телефону, параметр `psychologist`;
@@ -202,6 +203,17 @@ npm run lint        # eslint
   или Telegram, параметры `psychologist`, `messenger`;
 - `map_click` — клик по адресу в шапке;
 - `quick_start_view` — блок «Быстрый старт» показался во viewport.
+
+Отдельные цели по карточкам называются `<id психолога>_<действие>` и уходят
+вместе с общей целью:
+
+- Валерия: `valeriya_card_open`, `valeriya_phone_click`,
+  `valeriya_max_click`, `valeriya_telegram_click`;
+- Мария: `mariya_card_open`, `mariya_phone_click`, `mariya_telegram_click`.
+
+У Марии нет ссылки на MAX, поэтому цели `mariya_max_click` нет. Имена целей
+собираются из `id` в данных, так что новому психологу достаточно задать свой
+`id` — набор целей будет таким же.
 
 Персональные данные в события не передаются — только id специалиста и тип
 канала.

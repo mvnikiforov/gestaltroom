@@ -8,14 +8,16 @@
  * Цели с такими же идентификаторами нужно создать в интерфейсе Метрики:
  * «Цели» → «JavaScript-событие».
  */
+/** Действия на карточке, для которых есть отдельные цели по психологу. */
+type CardGoal = 'card_open' | 'phone_click' | 'max_click' | 'telegram_click';
+
 type AnalyticsGoal =
-  | 'card_open'
-  | 'phone_click'
-  | 'max_click'
-  | 'telegram_click'
+  | CardGoal
   | 'messenger_click'
   | 'map_click'
-  | 'quick_start_view';
+  | 'quick_start_view'
+  /** Отдельная цель карточки: `<id психолога>_<действие>`. */
+  | `${string}_${CardGoal}`;
 
 type AnalyticsParams = Record<string, string | number | boolean>;
 
@@ -68,8 +70,23 @@ export function reachGoal(goal: AnalyticsGoal, params?: AnalyticsParams): void {
  * сравнивать каналы между собой; для прочих ссылок остаётся общая
  * `messenger_click`.
  */
-export function messengerGoal(messenger: string): AnalyticsGoal {
+export function messengerGoal(messenger: string): CardGoal | 'messenger_click' {
   if (messenger === 'max') return 'max_click';
   if (messenger === 'telegram') return 'telegram_click';
   return 'messenger_click';
+}
+
+/**
+ * Цель действия на карточке: отправляет общую цель и отдельную для психолога.
+ * Например, клик по телефону Валерии — `phone_click` и `valeriya_phone_click`.
+ * Для нераспознанного мессенджера отдельной цели нет.
+ */
+export function reachCardGoal(
+  goal: CardGoal | 'messenger_click',
+  psychologist: string,
+  params?: AnalyticsParams,
+): void {
+  reachGoal(goal, params);
+  if (goal === 'messenger_click') return;
+  reachGoal(`${psychologist}_${goal}`, params);
 }
