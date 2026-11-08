@@ -3,3 +3,8 @@ node_modules/
 dist/
 build/
 *.log
+
+# Локальные переменные окружения (номер счётчика Метрики и т.п.)
+.env
+.env.*
+!.env.example

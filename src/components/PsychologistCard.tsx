@@ -1,13 +1,20 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import type { Psychologist } from '../data/psychologists';
+import { reachGoal } from '../lib/analytics';
 import PsychologistPhoto from './PsychologistPhoto';
 
 interface PsychologistCardProps {
   psychologist: Psychologist;
 }
 
+function getMessenger(url: string): string {
+  if (url.includes('t.me')) return 'telegram';
+  if (url.includes('max.ru')) return 'max';
+  return 'other';
+}
+
 export default function PsychologistCard({ psychologist }: PsychologistCardProps) {
-  const { name, subtitle, bio, accent, fade, delay, phone, phoneHref, links } =
+  const { id, name, subtitle, bio, accent, fade, delay, phone, phoneHref, links } =
     psychologist;
   const [isFlipped, setIsFlipped] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
@@ -56,7 +63,10 @@ export default function PsychologistCard({ psychologist }: PsychologistCardProps
             случайно перевернуть карточку, прокручивая длинный текст. */}
         <button
           type="button"
-          onClick={() => setIsFlipped(true)}
+          onClick={() => {
+            setIsFlipped(true);
+            reachGoal('card_open', { psychologist: id });
+          }}
           aria-expanded={isFlipped}
           aria-controls={backId}
           aria-hidden={isFlipped}
@@ -139,6 +149,7 @@ export default function PsychologistCard({ psychologist }: PsychologistCardProps
               {phone && phoneHref && (
                 <a
                   href={phoneHref}
+                  onClick={() => reachGoal('phone_click', { psychologist: id })}
                   tabIndex={isFlipped ? 0 : -1}
                   aria-hidden={!isFlipped}
                   className="inline-flex items-center gap-2 rounded-full border border-transparent bg-white/15 hover:bg-white/25 active:bg-white/30 transition-colors px-4 py-2.5 text-sm font-medium no-underline motion-reduce:transition-none"
@@ -161,33 +172,68 @@ export default function PsychologistCard({ psychologist }: PsychologistCardProps
                 </a>
               )}
 
-              {links?.map((link) => (
-                <a
-                  key={link.url}
-                  href={link.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  tabIndex={isFlipped ? 0 : -1}
-                  aria-hidden={!isFlipped}
-                  className="inline-flex items-center gap-2 rounded-full border border-current opacity-80 hover:opacity-100 active:opacity-100 transition-opacity px-4 py-2.5 text-sm font-medium no-underline motion-reduce:transition-none"
-                >
-                  <svg
-                    className="w-4 h-4"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                    aria-hidden="true"
+              {links?.map((link) => {
+                const messenger = getMessenger(link.url);
+                const isIconOnly = messenger === 'max' || messenger === 'telegram';
+
+                return (
+                  <a
+                    key={link.url}
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={link.label}
+                    onClick={() =>
+                      reachGoal('messenger_click', {
+                        psychologist: id,
+                        messenger,
+                      })
+                    }
+                    tabIndex={isFlipped ? 0 : -1}
+                    aria-hidden={!isFlipped}
+                    className={`inline-flex items-center gap-2 rounded-full border border-current opacity-80 hover:opacity-100 active:opacity-100 transition-opacity px-4 text-sm font-medium no-underline motion-reduce:transition-none ${
+                      isIconOnly ? 'py-3' : 'py-2.5'
+                    }`}
                   >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={1.5}
-                      d="M6 12L3.269 3.125A59.769 59.769 0 0121.485 12 59.77 59.77 0 013.27 20.875L5.999 12zm0 0h7.5"
-                    />
-                  </svg>
-                  {link.label}
-                </a>
-              ))}
+                    {messenger === 'max' ? (
+                      /* Официальная белая иконка MAX из брендбука:
+                         https://go.max.ru/brandbook */
+                      <img
+                        src="/images/max-logo.svg"
+                        alt=""
+                        aria-hidden="true"
+                        className="w-4 h-4 object-contain"
+                      />
+                    ) : messenger === 'telegram' ? (
+                      /* Официальный силуэт Telegram (Telegram Messenger LLP),
+                         перекрашен в белый под стиль иконки MAX:
+                         https://commons.wikimedia.org/wiki/File:Telegram_logo.svg */
+                      <img
+                        src="/images/telegram-logo.svg"
+                        alt=""
+                        aria-hidden="true"
+                        className="w-4 h-4 object-contain"
+                      />
+                    ) : (
+                      <svg
+                        className="w-4 h-4"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        aria-hidden="true"
+                      >
+                        <path
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                          strokeWidth={1.5}
+                          d="M6 12L3.269 3.125A59.769 59.769 0 0121.485 12 59.77 59.77 0 013.27 20.875L5.999 12zm0 0h7.5"
+                        />
+                      </svg>
+                    )}
+                    {!isIconOnly && link.label}
+                  </a>
+                );
+              })}
 
               {/* Возврат — такая же «таблетка», но с одной стрелкой и без
                   подписи, поэтому py-3 держит ту же высоту 40px, что и

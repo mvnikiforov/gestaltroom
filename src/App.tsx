@@ -2,6 +2,7 @@ import ParticleBackground from './components/ParticleBackground';
 import PsychologistCard from './components/PsychologistCard';
 import QuickStartSection from './components/QuickStartSection';
 import { psychologists, site } from './data/psychologists';
+import { reachGoal } from './lib/analytics';
 
 export default function App() {
   return (
@@ -28,6 +29,7 @@ export default function App() {
             href={site.mapsUrl}
             target="_blank"
             rel="noopener noreferrer"
+            onClick={() => reachGoal('map_click')}
             className="mt-2 sm:mt-3 inline-flex items-center gap-2 sm:gap-2.5 text-[15px] sm:text-[18px] md:text-[24px] lg:text-[30px] font-light text-warm-700 hover:text-warm-800 hover:underline underline-offset-4 decoration-warm-400 no-underline transition-colors motion-reduce:transition-none"
           >
             <svg

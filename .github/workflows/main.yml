@@ -39,6 +39,8 @@ jobs:
 
       - name: Build
         run: npm run build
+        env:
+          VITE_YM_ID: ${{ vars.VITE_YM_ID }}
 
       - name: Upload build artifact
         uses: actions/upload-artifact@v4

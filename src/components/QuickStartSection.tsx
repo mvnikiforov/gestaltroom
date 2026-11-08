@@ -1,4 +1,6 @@
+import { useEffect, useRef } from 'react';
 import { quickStart } from '../data/psychologists';
+import { reachGoal } from '../lib/analytics';
 
 const ROWS: {
   label: string;
@@ -12,8 +14,28 @@ const ROWS: {
 ];
 
 export default function QuickStartSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+
+  useEffect(() => {
+    const section = sectionRef.current;
+    if (!section) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (!entry.isIntersecting) return;
+        reachGoal('quick_start_view');
+        observer.disconnect();
+      },
+      { threshold: 0.35 },
+    );
+
+    observer.observe(section);
+    return () => observer.disconnect();
+  }, []);
+
   return (
     <section
+      ref={sectionRef}
       aria-labelledby="quick-start-title"
       className="w-full max-w-[340px] sm:max-w-[380px] md:max-w-[400px] lg:max-w-none lg:col-span-2 mx-auto rounded-3xl bg-warm-100 shadow-2xl shadow-warm-900/10 p-6 sm:p-8 lg:p-10 text-left"
     >
