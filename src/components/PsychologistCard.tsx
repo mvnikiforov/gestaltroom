@@ -110,16 +110,6 @@ export default function PsychologistCard({ psychologist }: PsychologistCardProps
           className={`card-face card-back relative w-full h-full ${accent}`}
         >
           <div className="w-full h-full p-6 sm:p-8 flex flex-col">
-            <div className="shrink-0">
-              <div className="flex items-center gap-2 mb-4">
-                <div className="w-8 h-0.5 bg-current opacity-40" />
-                <span className="text-xs uppercase tracking-widest opacity-60">О себе</span>
-              </div>
-              <h3 className="font-serif text-xl sm:text-2xl font-semibold mb-4 leading-tight">
-                {name}
-              </h3>
-            </div>
-
             {/* Биография прокручивается отдельно: телефон и кнопка «вернуться»
                 остаются на виду, а прокрутка текста никогда не переворачивает карточку. */}
             <div className="relative min-h-0 flex-1">
