@@ -141,10 +141,11 @@ export default function PsychologistCard({ psychologist }: PsychologistCardProps
               />
             </div>
 
-            {/* Контакты и возврат — одна flex-колонка с общим gap; items-end
-                прижимает «таблетки» к правому краю (дефолтный stretch растянул
-                бы их на всю ширину). Рамка 1px есть у всех элементов, у
-                телефона она transparent, иначе его высота будет на 2px меньше. */}
+            {/* Два ряда: телефон сверху, ниже — мессенджеры и возврат.
+                items-end прижимает ряды к правому краю (дефолтный stretch
+                растянул бы «таблетки» на всю ширину). Рамка 1px есть у всех
+                элементов, у телефона она transparent, иначе его высота будет
+                на 2px меньше. */}
             <div className="shrink-0 flex flex-col items-end gap-3 pt-3">
               {phone && phoneHref && (
                 <a
@@ -172,95 +173,96 @@ export default function PsychologistCard({ psychologist }: PsychologistCardProps
                 </a>
               )}
 
-              {links?.map((link) => {
-                const messenger = getMessenger(link.url);
-                const isIconOnly = messenger === 'max' || messenger === 'telegram';
+              <div className="flex items-center gap-3">
+                {links?.map((link) => {
+                  const messenger = getMessenger(link.url);
+                  const isIconOnly = messenger === 'max' || messenger === 'telegram';
 
-                return (
-                  <a
-                    key={link.url}
-                    href={link.url}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    aria-label={link.label}
-                    onClick={() =>
-                      reachGoal('messenger_click', {
-                        psychologist: id,
-                        messenger,
-                      })
-                    }
-                    tabIndex={isFlipped ? 0 : -1}
-                    aria-hidden={!isFlipped}
-                    className={`inline-flex items-center gap-2 rounded-full border border-current opacity-80 hover:opacity-100 active:opacity-100 transition-opacity px-4 text-sm font-medium no-underline motion-reduce:transition-none ${
-                      isIconOnly ? 'py-3' : 'py-2.5'
-                    }`}
-                  >
-                    {messenger === 'max' ? (
-                      /* Официальная белая иконка MAX из брендбука:
-                         https://go.max.ru/brandbook */
-                      <img
-                        src="/images/max-logo.svg"
-                        alt=""
-                        aria-hidden="true"
-                        className="w-4 h-4 object-contain"
-                      />
-                    ) : messenger === 'telegram' ? (
-                      /* Официальный силуэт Telegram (Telegram Messenger LLP),
-                         перекрашен в белый под стиль иконки MAX:
-                         https://commons.wikimedia.org/wiki/File:Telegram_logo.svg */
-                      <img
-                        src="/images/telegram-logo.svg"
-                        alt=""
-                        aria-hidden="true"
-                        className="w-4 h-4 object-contain"
-                      />
-                    ) : (
-                      <svg
-                        className="w-4 h-4"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        aria-hidden="true"
-                      >
-                        <path
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                          strokeWidth={1.5}
-                          d="M6 12L3.269 3.125A59.769 59.769 0 0121.485 12 59.77 59.77 0 013.27 20.875L5.999 12zm0 0h7.5"
+                  return (
+                    <a
+                      key={link.url}
+                      href={link.url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      aria-label={link.label}
+                      onClick={() =>
+                        reachGoal('messenger_click', {
+                          psychologist: id,
+                          messenger,
+                        })
+                      }
+                      tabIndex={isFlipped ? 0 : -1}
+                      aria-hidden={!isFlipped}
+                      className={`inline-flex items-center gap-2 rounded-full border border-current opacity-80 hover:opacity-100 active:opacity-100 transition-opacity px-4 text-sm font-medium no-underline motion-reduce:transition-none ${
+                        isIconOnly ? 'py-3' : 'py-2.5'
+                      }`}
+                    >
+                      {messenger === 'max' ? (
+                        /* Официальная белая иконка MAX из брендбука:
+                           https://go.max.ru/brandbook */
+                        <img
+                          src="/images/max-logo.svg"
+                          alt=""
+                          aria-hidden="true"
+                          className="w-4 h-4 object-contain"
                         />
-                      </svg>
-                    )}
-                    {!isIconOnly && link.label}
-                  </a>
-                );
-              })}
+                      ) : messenger === 'telegram' ? (
+                        /* Официальный силуэт Telegram (Telegram Messenger LLP),
+                           перекрашен в белый под стиль иконки MAX:
+                           https://commons.wikimedia.org/wiki/File:Telegram_logo.svg */
+                        <img
+                          src="/images/telegram-logo.svg"
+                          alt=""
+                          aria-hidden="true"
+                          className="w-4 h-4 object-contain"
+                        />
+                      ) : (
+                        <svg
+                          className="w-4 h-4"
+                          fill="none"
+                          stroke="currentColor"
+                          viewBox="0 0 24 24"
+                          aria-hidden="true"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth={1.5}
+                            d="M6 12L3.269 3.125A59.769 59.769 0 0121.485 12 59.77 59.77 0 013.27 20.875L5.999 12zm0 0h7.5"
+                          />
+                        </svg>
+                      )}
+                      {!isIconOnly && link.label}
+                    </a>
+                  );
+                })}
 
-              {/* Возврат — такая же «таблетка», но с одной стрелкой и без
-                  подписи, поэтому py-3 держит ту же высоту 40px, что и
-                  контактные ссылки с текстом. Имя — в aria-label. */}
-              <button
-                type="button"
-                onClick={() => setIsFlipped(false)}
-                tabIndex={isFlipped ? 0 : -1}
-                aria-hidden={!isFlipped}
-                aria-label="Вернуться к портрету"
-                className="inline-flex items-center rounded-full border border-current px-4 py-3 opacity-70 hover:opacity-100 active:opacity-100 transition-opacity motion-reduce:transition-none"
-              >
-                <svg
-                  className="w-4 h-4"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                  aria-hidden="true"
+                {/* Возврат — в одном ряду с мессенджерами, такая же
+                    «таблетка» с одной стрелкой. Имя — в aria-label. */}
+                <button
+                  type="button"
+                  onClick={() => setIsFlipped(false)}
+                  tabIndex={isFlipped ? 0 : -1}
+                  aria-hidden={!isFlipped}
+                  aria-label="Вернуться к портрету"
+                  className="inline-flex items-center rounded-full border border-current px-4 py-3 opacity-70 hover:opacity-100 active:opacity-100 transition-opacity motion-reduce:transition-none"
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={1.5}
-                    d="M10 19l-7-7m0 0l7-7m-7 7h18"
-                  />
-                </svg>
-              </button>
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                    aria-hidden="true"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={1.5}
+                      d="M10 19l-7-7m0 0l7-7m-7 7h18"
+                    />
+                  </svg>
+                </button>
+              </div>
             </div>
           </div>
         </div>

@@ -24,7 +24,7 @@ export interface PsychologistPhoto {
 export interface PsychologistLink {
   /** Подпись на «таблетке», например «Канал в Telegram». */
   label: string;
-  /** Адрес канала, открывается в новой вкладке. */
+  /** Адрес канала или личного контакта, открывается в новой вкладке. */
   url: string;
 }
 
@@ -37,7 +37,7 @@ export interface Psychologist {
   /** Телефон для записи. Убирается вместе с `phoneHref`, если не нужен. */
   phone?: string;
   phoneHref?: string;
-  /** Дополнительные ссылки (каналы в мессенджерах). Порядок — как на карточке. */
+  /** Дополнительные ссылки (мессенджеры). Порядок — как на карточке. */
   links?: PsychologistLink[];
   photo: PsychologistPhoto;
   /** Tailwind-классы для рубашки карточки. */
@@ -108,6 +108,7 @@ export const psychologists: Psychologist[] = [
     ],
     phone: '8 903 345 68 09',
     phoneHref: 'tel:+79033456809',
+    links: [{ label: 'Написать в Telegram', url: 'https://t.me/masha1507' }],
     photo: {
       src: '/images/Mariya.webp',
       alt: 'Портрет Марии, гештальт-терапевта',
