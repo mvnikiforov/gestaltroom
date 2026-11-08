@@ -196,8 +196,10 @@ npm run lint        # eslint
 
 - `card_open` — открыли карточку, параметр `psychologist`;
 - `phone_click` — клик по телефону, параметр `psychologist`;
-- `messenger_click` — клик по каналу, параметры `psychologist`, `messenger`
-  (`max` / `telegram` / `other`);
+- `max_click` — клик по MAX, параметр `psychologist`;
+- `telegram_click` — клик по Telegram, параметр `psychologist`;
+- `messenger_click` — резервная цель для ссылок, которые не распознаны как MAX
+  или Telegram, параметры `psychologist`, `messenger`;
 - `map_click` — клик по адресу в шапке;
 - `quick_start_view` — блок «Быстрый старт» показался во viewport.
 

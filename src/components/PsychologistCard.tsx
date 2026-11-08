@@ -1,6 +1,6 @@
 import { useEffect, useId, useRef, useState } from 'react';
 import type { Psychologist } from '../data/psychologists';
-import { reachGoal } from '../lib/analytics';
+import { messengerGoal, reachGoal } from '../lib/analytics';
 import PsychologistPhoto from './PsychologistPhoto';
 
 interface PsychologistCardProps {
@@ -176,7 +176,7 @@ export default function PsychologistCard({ psychologist }: PsychologistCardProps
                       rel="noopener noreferrer"
                       aria-label={link.label}
                       onClick={() =>
-                        reachGoal('messenger_click', {
+                        reachGoal(messengerGoal(messenger), {
                           psychologist: id,
                           messenger,
                         })

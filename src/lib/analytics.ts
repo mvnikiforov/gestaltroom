@@ -11,6 +11,8 @@
 type AnalyticsGoal =
   | 'card_open'
   | 'phone_click'
+  | 'max_click'
+  | 'telegram_click'
   | 'messenger_click'
   | 'map_click'
   | 'quick_start_view';
@@ -59,4 +61,15 @@ export function initAnalytics(): void {
 export function reachGoal(goal: AnalyticsGoal, params?: AnalyticsParams): void {
   if (!COUNTER_ID || !window.ym) return;
   window.ym(COUNTER_ID, 'reachGoal', goal, params);
+}
+
+/**
+ * Цель клика по мессенджеру. У MAX и Telegram отдельные цели, чтобы в Метрике
+ * сравнивать каналы между собой; для прочих ссылок остаётся общая
+ * `messenger_click`.
+ */
+export function messengerGoal(messenger: string): AnalyticsGoal {
+  if (messenger === 'max') return 'max_click';
+  if (messenger === 'telegram') return 'telegram_click';
+  return 'messenger_click';
 }
